@@ -18,6 +18,8 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import RedirectResponse
 from fastapi.responses import JSONResponse
 from pymongo import MongoClient
+from btg.use_case.use_service import UserService
+from btg.response import ResponseSuccess, ResponseFailure
 from .schema_swagger import (
     SuccessResponse,
     ErrorResourceNotFound,
@@ -31,9 +33,6 @@ from .schema_swagger import (
     TransactionHistorySuccessResponse,
     NoTransactionsFoundErrorResponse,
 )
-from btg.use_case.use_service import UserService
-from btg.response import ResponseSuccess, ResponseFailure
-
 
 # MongoDB Connection
 client = MongoClient("mongodb://root:example@btg_mongodb:27017/")
