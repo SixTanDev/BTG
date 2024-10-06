@@ -2,9 +2,9 @@ name: Code Linters with Pylint & Bandit
 
 on:
   push:
-    branches: [ "ci/*", "feature/*", "fix/*", "refactor/*", "chore/*", "test/*" ]
+    branches: [ "development", "main", "quality", "ci/*", "feature/*", "fix/*", "refactor/*", "chore/*", "test/*" ]
   pull_request:
-    branches: [ "development", "master", "quality" ]
+    branches: [ "development", "main", "quality" ]
 
 jobs:
   build:
