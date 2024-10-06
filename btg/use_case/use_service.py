@@ -156,7 +156,7 @@ class UserService:
             )
 
         # Define the time zone of Colombia
-        timezone_colombia = pytz.timezone('America/Bogota')
+        timezone_colombia = pytz.timezone("America/Bogota")
 
         subscription = {
             "subscription_id": str(uuid.uuid4()),
@@ -175,7 +175,7 @@ class UserService:
                 "fund_id": fund_id,
                 "amount": amount,
                 "type": "subscription",
-                "date": datetime.now(timezone_colombia)
+                "date": datetime.now(timezone_colombia),
             }
 
             self.repository.add_transaction(transaction)
@@ -274,7 +274,7 @@ class UserService:
             )
 
         # Define the time zone of Colombia
-        timezone_colombia = pytz.timezone('America/Bogota')
+        timezone_colombia = pytz.timezone("America/Bogota")
 
         cancellation = {
             "transaction_id": str(uuid.uuid4()),

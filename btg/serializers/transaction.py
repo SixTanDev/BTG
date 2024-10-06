@@ -31,15 +31,15 @@ class Transaction(BaseModel):
     date: datetime
     _id: Optional[str] = None  # To handle MongoDB ObjectId
 
-    @field_validator('date', mode='before')
+    @field_validator("date", mode="before")
     def set_timezone(cls, v):
         if isinstance(v, datetime):
             if v.tzinfo is None:
                 utc = pytz.utc
                 v = utc.localize(v)
-            colombia_tz = pytz.timezone('America/Bogota')
+            colombia_tz = pytz.timezone("America/Bogota")
             return v.astimezone(colombia_tz)
-        raise ValueError('Invalid datetime format')
+        raise ValueError("Invalid datetime format")
 
 
 class TransactionList(BaseModel):
