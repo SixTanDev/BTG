@@ -1,7 +1,7 @@
 [tool.black]
 line-length = 88
 target-version = ['py310']
-include = '(application|btg|config)/.*\.py$'
+include = '\.(py)$'
 exclude = '''
 /(
     \.git
@@ -16,8 +16,17 @@ exclude = '''
   | dist
   | scripts
   | .*\.pyc
-  | script_init\.sh
-  | poetry\.lock
-  | pyproject\.toml
+  | config/poetry\.lock
+  | config/pyproject\.toml
+  | config/script_init\.sh
+  | dockerfile/Dockerfile
+  | dockercompose\.yml
+  | Makefile
+  | \.pre-commit-config\.yaml
+  | README\.md
+  | linters_code
+  | linters_code/black/pyproject\.toml
+  | linters_code/bandit/bandit_config\.json
+  | linters_code/pylint/.*
 )/
 '''
