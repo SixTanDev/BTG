@@ -1,0 +1,38 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black
+        language: system
+        args:
+          - '--config'
+          - 'linters_code/black/pyproject.toml'
+          - 'application'
+          - 'btg'
+          - 'config'
+        stages: [commit]
+
+      - id: bandit
+        name: bandit
+        entry: bandit
+        language: system
+        args:
+          - '-r'
+          - 'application'
+          - 'btg'
+          - 'config'
+          - '-c'
+          - 'linters_code/bandit/bandit_config.json'
+        stages: [push]
+
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        args:
+          - '--rcfile=linters_code/pylint/.pylintrc'
+          - 'application'
+          - 'btg'
+          - 'config'
+        stages: [push]
