@@ -1,30 +1,25 @@
 repos:
   - repo: local
     hooks:
-      - id: black
-        name: black
-        entry: black
-        language: system
-        args:
+      - id : black
+        name : black
+        entry : black
+        language : system
+        args :
           - '--config'
-          - 'linters_code/black/pyproject.toml'
-          - 'application'
-          - 'btg'
-          - 'config'
-        stages: [pre-commit]
+          - 'linters_code/black/pyproject.toml'  # Path to your config file
+        files : '\.py$'
+        stages : [ pre-commit ]
 
-      - id: bandit
-        name: bandit
-        entry: bandit
-        language: system
-        args:
+      - id : bandit
+        name : bandit
+        entry : bandit
+        language : system
+        args :
           - '-r'
-          - 'application'
-          - 'btg'
-          - 'config'
           - '-c'
-          - 'linters_code/bandit/bandit_config.json'
-        stages: [pre-push]
+          - 'linters_code/bandit/bandit.yaml'
+        stages : [ pre-push ]
 
       - id: pylint
         name: pylint
