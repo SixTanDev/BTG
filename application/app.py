@@ -250,8 +250,3 @@ def history(user_id: str):
     return JSONResponse(
         content=jsonable_encoder(result), status_code=result.status_code
     )
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app="app:app", host="0.0.0.0", port=8001)
