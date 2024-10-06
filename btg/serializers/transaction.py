@@ -3,12 +3,12 @@ This module contains serializers for transaction data using Pydantic models.
 
 The `Transaction` model represents a single transaction, while the `TransactionList`
 model handles a list of transactions. These serializers facilitate the conversion of
-MongoDB documents into Python objects and ensure proper validation of the transaction data.
-The models can also easily convert Python objects into JSON format, making it easier
-to work with transaction data in web applications.
+MongoDB documents into Python objects and ensure proper validation of the
+transaction data. The models can also easily convert Python objects into
+JSON format, making it easier to work with transaction data in web applications.
 """
 
-# pylint: disable=R0903
+# pylint: disable=R0903, E0213, R0801
 
 from typing import List, Optional
 from datetime import datetime
@@ -33,6 +33,23 @@ class Transaction(BaseModel):
 
     @field_validator("date", mode="before")
     def set_timezone(cls, v):
+        """
+        Adjusts the timezone of a given datetime object to 'America/Bogota'
+        (Colombian timezone).
+
+        If the datetime object is naive (i.e., it has no timezone information),
+        it is first localized to UTC. Then, the datetime is converted to the
+        'America/Bogota' timezone.
+
+        Args:
+            v (datetime): The datetime object to be adjusted.
+
+        Returns:
+            datetime: The datetime object adjusted to the 'America/Bogota' timezone.
+
+        Raises:
+            ValueError: If the input is not a valid datetime object.
+        """
         if isinstance(v, datetime):
             if v.tzinfo is None:
                 utc = pytz.utc

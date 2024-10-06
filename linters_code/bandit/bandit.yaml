@@ -1,0 +1,15 @@
+# bandit.yaml
+
+exclude_dirs:
+  - linters_code/bandit/bandit.ini
+  - __pycache__
+  - "*.pyc"
+  - "**/__init__.py"
+  - config/poetry.lock
+  - config/pyproject.toml
+  - config/script_init.sh
+
+targets:
+  - application
+  - btg
+  - config
