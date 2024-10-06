@@ -10,8 +10,8 @@ The responses are standardized using ResponseSuccess and ResponseFailure.
 # pylint: disable=E0401, E0611, W0718, R0911
 
 from datetime import datetime
-import pytz
 import uuid
+import pytz
 from btg.repository.user_repository import UserRepository
 from btg.response import ResponseSuccess, ResponseFailure, ResponseTypes
 from btg.serializers.transaction import TransactionList
@@ -46,9 +46,10 @@ def send_sms(phone, message):
 
 class UserService:
     """
-    This service class handles operations related to user subscriptions, fund management,
-    and transaction history. It interacts with the UserRepository to perform actions
-    such as subscribing to a fund, canceling a subscription, and retrieving transaction history.
+    This service class handles operations related to user
+    subscriptions, fund management, and transaction history.
+    It interacts with the UserRepository to perform actions such as
+    subscribing to a fund, canceling a subscription, and retrieving transaction history.
     """
 
     def __init__(self, db) -> None:
@@ -131,16 +132,19 @@ class UserService:
 
         if self.repository.find_last_subscription(user_id, fund_id):
             message: str = (
-                f"You are already subscribed to fund {fund['name']}. You must cancel your "
+                f"You are already subscribed to fund {fund['name']}. "
+                f"You must cancel your "
                 f"subscription before subscribing again."
             )
             return ResponseFailure(type_=ResponseTypes.CONFLICT_ERROR, message=message)
 
         if amount > user["balance"]:
             message: str = (
-                f"The amount you tried to subscribe ({amount:.2f}) is greater than your available "
+                f"The amount you tried to subscribe ({amount:.2f}) is "
+                f"greater than your available "
                 f"balance ({user['balance']:.2f}). "
-                f"The value of the fund {fund['name']} is {fund['minimum_subscription']:.2f}, "
+                f"The value of the fund {fund['name']} is "
+                f"{fund['minimum_subscription']:.2f}, "
                 f"you must adjust the subscription to the amount of the fund."
             )
             return ResponseFailure(
@@ -195,7 +199,8 @@ class UserService:
 
     def _find_funds_within_amount(self, user, amount):
         """
-        Finds funds that the user can subscribe to based on the amount they are willing to invest.
+        Finds funds that the user can subscribe to based on
+        the amount they are willing to invest.
 
         Args:
             user (dict): The user object containing their current transactions.
@@ -242,7 +247,8 @@ class UserService:
         self, user_id: str, fund_id: str
     ) -> ResponseSuccess | ResponseFailure:
         """
-        Cancels the user's active subscription to a specific fund and refunds the amount.
+        Cancels the user's active subscription to a
+        specific fund and refunds the amount.
 
         Args:
             user_id (str): The unique identifier for the user.
@@ -316,7 +322,8 @@ class UserService:
             user_id (str): The unique identifier for the user.
 
         Returns:
-            ResponseSuccess: If transactions are found, returns the list of transactions.
+            ResponseSuccess: If transactions are found, returns the list of
+                             transactions.
             ResponseFailure: If no transactions are found or the user does not exist.
         """
         user = self.repository.find_user(user_id)

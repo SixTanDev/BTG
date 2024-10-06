@@ -1,6 +1,7 @@
 """
-This module contains the UserRepository class which interfaces with the MongoDB database.
-It provides methods for retrieving and managing users, funds, subscriptions, and transactions
+This module contains the UserRepository class which
+interfaces with the MongoDB database. It provides methods for
+retrieving and managing users, funds, subscriptions, and transactions
 in the context of the application's business rules.
 """
 
@@ -85,12 +86,14 @@ class UserRepository:
         self, user_id: str, amount: float, transaction
     ) -> None:
         """
-        Updates the user's balance and logs the transaction in the 'transactions' collection.
+        Updates the user's balance and logs the
+        transaction in the 'transactions' collection.
 
         Args:
             user_id: The unique ID of the user.
             amount: The amount to be added or subtracted from the user's balance.
-            transaction: The transaction document to be inserted into the 'transactions' collection.
+            transaction: The transaction document to be inserted into the
+                        'transactions' collection.
         """
         self.db.users.update_one({"_id": user_id}, {"$inc": {"balance": amount}})
         self.db.transactions.insert_one(transaction)
@@ -147,7 +150,8 @@ class UserRepository:
 
     def get_transactions(self, user_id: str):
         """
-        Retrieves all transactions for a specific user from the 'transactions' collection.
+        Retrieves all transactions for a specific user
+        from the 'transactions' collection.
 
         Args:
             user_id: The unique ID of the user.
