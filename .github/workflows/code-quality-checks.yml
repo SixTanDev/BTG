@@ -38,4 +38,4 @@ jobs:
         poetry run pylint  --rcfile=./linters_code/pylint/.pylintrc application btg config
     - name: Run Bandit
       run: |
-        poetry run bandit -r -c ./linters_code/bandit/bandit.yaml
+            poetry run bandit -r --configfile ./linters_code/bandit/bandit.yaml application btg config
