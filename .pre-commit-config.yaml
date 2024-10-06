@@ -11,7 +11,7 @@ repos:
           - 'application'
           - 'btg'
           - 'config'
-        stages: [commit]
+        stages: [pre-commit]
 
       - id: bandit
         name: bandit
@@ -24,7 +24,7 @@ repos:
           - 'config'
           - '-c'
           - 'linters_code/bandit/bandit_config.json'
-        stages: [push]
+        stages: [pre-push]
 
       - id: pylint
         name: pylint
@@ -35,4 +35,4 @@ repos:
           - 'application'
           - 'btg'
           - 'config'
-        stages: [push]
+        stages: [pre-push]
