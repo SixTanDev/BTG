@@ -1,0 +1,32 @@
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.(py)$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | __pycache__
+  | \.svn
+  | \.bzr
+  | build
+  | dist
+  | scripts
+  | .*\.pyc
+  | config/poetry\.lock
+  | config/pyproject\.toml
+  | config/script_init\.sh
+  | dockerfile/Dockerfile
+  | dockercompose\.yml
+  | Makefile
+  | \.pre-commit-config\.yaml
+  | README\.md
+  | linters_code
+  | linters_code/black/pyproject\.toml
+  | linters_code/bandit/bandit_config\.json
+  | linters_code/pylint/.*
+)/
+'''

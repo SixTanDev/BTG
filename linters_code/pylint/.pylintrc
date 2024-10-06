@@ -1,0 +1,20 @@
+[MASTER]
+# Specify a configuration file.
+#rcfile=
+
+# Python code to analyze
+init-hook='import sys; sys.path.extend(["../../application", "../../btg", "../../config"])'
+
+# Add files or directories to the blacklist. They should be base names, not paths.
+ignore=__pycache__,*.pyc,pyproject.toml,poetry.lock,script_init.sh
+
+# A comma-separated list of package or module names from where C extensions may be loaded.
+extension-pkg-whitelist=
+
+[REPORTS]
+# Disable the report at the end of the Pylint output
+reports=no
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length=88
