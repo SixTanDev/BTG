@@ -1,0 +1,4 @@
+{
+  "directories": ["application", "btg", "config"],
+  "exclusions": ["**/__pycache__/*", "*.pyc"]
+}
