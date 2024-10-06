@@ -35,7 +35,7 @@ jobs:
     - name: Run Pylint
       run: |
         cd $GITHUB_WORKSPACE
-        poetry run pylint src --rcfile=./linters_code/pylint/.pylintrc
+        poetry run pylint  --rcfile=./linters_code/pylint/.pylintrc application btg config
     - name: Run Bandit
       run: |
         poetry run bandit -r -c ./linters_code/bandit/bandit.yaml
