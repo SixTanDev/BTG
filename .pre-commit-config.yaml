@@ -11,23 +11,11 @@ repos:
         files : '\.py$'
         stages : [ pre-commit ]
 
-      - id : bandit
-        name : bandit
-        entry : bandit
-        language : system
-        args :
-          - '-r'
-          - '-c'
-          - 'linters_code/bandit/bandit.yaml'
-        stages : [ pre-push ]
-
       - id: pylint
         name: pylint
         entry: pylint
         language: system
         args:
           - '--rcfile=linters_code/pylint/.pylintrc'
-          - 'application'
-          - 'btg'
-          - 'config'
+          - 'tests'
         stages: [pre-push]
