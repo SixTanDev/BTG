@@ -19,6 +19,7 @@ import pytz
 from btg.repository.user_repository import UserRepository
 from btg.response import ResponseSuccess, ResponseFailure, ResponseTypes
 from btg.serializers.transaction import TransactionList
+from config.settings import settings
 
 
 # Notification simulations
@@ -33,14 +34,13 @@ def send_email(recipient_email: str, message: str, fund: str):
         message (str): The message to send to the recipient.
     """
 
-    gmail_user: str = "info.btg.custom@gmail.com"
-    gmail_password: str = "pvff buxc pyhm qpuq"
-    recipient_email: str = recipient_email
+    gmail_user = settings.GMAIL_USER
+    gmail_password = settings.GMAIL_PASSWORD
 
-    subject: str = f"Subscription Confirmation: {fund}"
-    body: str = message
+    subject = f"Subscription Confirmation: {fund}"
+    body = message
 
-    msg: MIMEMultipart = MIMEMultipart()
+    msg = MIMEMultipart()
     msg["From"] = gmail_user
     msg["To"] = recipient_email
     msg["Subject"] = subject
