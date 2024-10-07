@@ -1,0 +1,21 @@
+repos:
+  - repo: local
+    hooks:
+      - id : black
+        name : black
+        entry : black
+        language : system
+        args :
+          - '--config'
+          - 'linters_code/black/pyproject.toml'  # Path to your config file
+        files : '\.py$'
+        stages : [ pre-commit ]
+
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        args:
+          - '--rcfile=linters_code/pylint/.pylintrc'
+          - 'tests'
+        stages: [pre-push]
