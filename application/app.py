@@ -20,6 +20,7 @@ from fastapi.responses import JSONResponse
 from pymongo import MongoClient
 from btg.use_case.use_service import UserService
 from btg.response import ResponseSuccess, ResponseFailure
+from config.settings import settings
 from .schema_swagger import (
     SuccessResponse,
     ErrorResourceNotFound,
@@ -35,7 +36,7 @@ from .schema_swagger import (
 )
 
 # MongoDB Connection
-client = MongoClient("mongodb://root:example@btg_mongodb:27017/")
+client = MongoClient(settings.ME_CONFIG_MONGODB_URL)
 db = client["btg_db"]
 
 app = FastAPI()
