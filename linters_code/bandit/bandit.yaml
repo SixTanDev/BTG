@@ -1,13 +1,18 @@
 # bandit.yaml
 
 exclude_dirs:
-  - linters_code/bandit/bandit.ini
+  - linters_code/bandit/bandit.yaml
   - __pycache__
   - "*.pyc"
   - "**/__init__.py"
   - config/poetry.lock
   - config/pyproject.toml
   - config/script_init.sh
+  - dockercompose.yml
+  - pre-commit-config.yaml
+  - Makefile
+  - linters_code/black/pyproject.toml
+  - dockerfile/Dockerfile
 
 targets:
   - application
