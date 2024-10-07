@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "serverless-deployment-bucket": "^1.6.0",
+    "serverless-import-plugin": "^0.0.6",
+    "serverless-layers": "^2.8.5",
+    "serverless-offline": "^13.5.0",
+    "serverless-prune-plugin": "^2.0.2",
+    "serverless-step-functions": "^3.21.0"
+  }
+}

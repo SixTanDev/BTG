@@ -1,0 +1,22 @@
+functions:
+  hello:
+    name: BTG-hello-v1-lambda-${opt:stage, 'dev'}
+    handler: core.handler.hello
+    timeout: 30
+    environment:
+      JSON_SCHEMA_PATH: ./src/hello/core/BTG-hello-v1-schema.json
+    events: 
+      - http: 
+          method: GET
+          path: /hello
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+            maxAge: 86400

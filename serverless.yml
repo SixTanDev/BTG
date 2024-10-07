@@ -1,0 +1,140 @@
+service: ${self:custom.microService}
+
+frameworkVersion: '3'
+
+custom:
+  product: BTG
+  region: us-east-2
+  modelName: BTGServerless
+  microServiceAction: modularize
+  microServiceVersion: v1
+  microService: ${self:custom.product}-${self:custom.microServiceAction}-${self:custom.modelName}-${self:custom.microServiceVersion}
+  serverless-offline:
+    httpPort: 8888
+    noTimeout: true
+  prune:
+    automatic: true
+    includeLayers: true
+    number: 5
+  camelCaseStage:
+    dev: Dev
+  #serverless-layers:
+  #  - customDependenciesLayer:
+  #      arn: arn:aws:lambda:us-east-2:713881813504:layer:btg-modularize-btgserverless-v1-dev-python-default:1
+  pythonRequirements:
+    layer: true
+    layerName: customDependenciesLayer
+    compatibleArchitectures:
+      - "x86_64"
+      - "arm64"
+    compatibleRuntimes:
+      - python3.10
+  import:
+    - ./src/hello/serverless.ms.yml
+
+resources:
+  Resources:
+    LambdaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:custom.microService}-role-${opt:stage, 'dev'}
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+                  - states.${aws:region}.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: ${self:custom.microService}-${opt:stage, 'dev'}-lambda
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement: [
+                {
+                  Effect: 'Allow',
+                  Action: [
+                    's3:*',
+                    'secretsmanager:GetSecretValue',
+                    'ssm:Describe*',
+                    'ssm:Get*',
+                    'ssm:List*',
+                    'dynamodb:BatchGetItem',
+                    'dynamodb:DescribeTable',
+                    'dynamodb:GetItem',
+                    'dynamodb:Scan',
+                    'dynamodb:PutItem',
+                    'dynamodb:Query',
+                    'dynamodb:UpdateItem',
+                    'dynamodb:DeleteItem',
+                    'events:PutEvents',
+                    'lambda:InvokeFunction',
+                    'lambda:GetLayerVersion',
+                    'logs:CreateLogDelivery',
+                    'logs:CreateLogGroup',
+                    'logs:CreateLogStream',
+                    'logs:GetLogDelivery',
+                    'logs:UpdateLogDelivery',
+                    'logs:DeleteLogDelivery',
+                    'logs:ListLogDeliveries',
+                    'logs:PutLogEvents',
+                    'logs:PutResourcePolicy',
+                    'logs:DescribeResourcePolicies',
+                    'logs:DescribeLogGroups',
+                    'states:StartExecution',
+                    "cognito-identity:*",
+                    "cognito-idp:*",
+                    "cognito-sync:*",
+                    "iam:ListRoles",
+                    "iam:ListOpenIdConnectProviders",
+                    "iam:GetRole",
+                    "iam:ListSAMLProviders",
+                    "iam:GetSAMLProvider",
+                    "kinesis:ListStreams",
+                    "lambda:GetPolicy",
+                    "lambda:ListFunctions",
+                    "sns:GetSMSSandboxAccountStatus",
+                    "sns:ListPlatformApplications",
+                    "ses:ListIdentities",
+                    "ses:GetIdentityVerificationAttributes",
+                    "mobiletargeting:GetApps",
+                    "acm:ListCertificates",
+                    "rekognition:GetLabelDetection",
+                    "rekognition:StartLabelDetection"
+                  ],
+                  Resource: '*'
+                }
+              ]
+
+provider:
+  name: aws
+  runtime: python3.10
+  region: us-east-2
+  deploymentBucket:
+    name: btg-custom-bucket-${opt:stage, 'dev'}
+  apiGateway:
+  environment:
+    STAGE: ${sls:stage}
+    CAMEL_CASE_STAGE: ${self:custom.camelCaseStage.${opt:stage, 'dev'}}
+    TZ: UTC
+  iam:
+    role: LambdaRole
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!package.json'
+    - '!package-lock.json'
+    - '!poetry.lock'
+    - '!pyproject.toml'
+    - '!.venv/**'
+    - '!.vscode/**'
+
+plugins:
+  - serverless-offline
+  - serverless-prune-plugin
+  - serverless-deployment-bucket
+  - serverless-import-plugin
+  - serverless-layers
+  - serverless-step-functions
