@@ -1,4 +1,4 @@
-name: Code Linters with Pylint & Bandit
+name: Code Linters with Pylint
 
 on:
   push:
