@@ -14,6 +14,7 @@ pymongo = "^4.10.1"
 pytz = "^2024.2"
 pre-commit = "^4.0.0"
 pydantic-settings = "^2.5.2"
+twilio = "^9.3.3"
 
 
 [tool.poetry.group.dev.dependencies]
