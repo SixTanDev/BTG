@@ -15,6 +15,7 @@ import smtplib
 import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from twilio.rest import Client
 import pytz
 from btg.repository.user_repository import UserRepository
 from btg.response import ResponseSuccess, ResponseFailure, ResponseTypes
@@ -25,13 +26,14 @@ from config.settings import settings
 # Notification simulations
 def send_email(recipient_email: str, message: str, fund: str):
     """
-    This is a placeholder function for sending email notifications.
-    This is not the final implementation and should be replaced by a proper
-    email sending service (e.g., SMTP, a third-party service like SendGrid).
+    Sends an email notification to a user confirming their subscription to a fund.
 
     Args:
-        recipient_email (str): The recipient's email address.
-        message (str): The message to send to the recipient.
+        recipient_email (str): The recipient's email address where the
+                               notification will be sent.
+        message (str): The message body to include in the email.
+        fund (str): The name of the subscribed fund, which will
+                     be included in the email's subject.
     """
 
     gmail_user = settings.GMAIL_USER
@@ -52,17 +54,31 @@ def send_email(recipient_email: str, message: str, fund: str):
         server.sendmail(gmail_user, recipient_email, msg.as_string())
 
 
-def send_sms(phone, message):
+def send_sms(phone: str, message: str):
     """
-    This is a placeholder function for sending SMS notifications.
-    This is not the final implementation and should be replaced by a proper
-    SMS service (e.g., Twilio, Nexmo, etc.).
+    This function sends SMS notifications using Twilio API.
 
     Args:
         phone (str): The recipient's phone number.
         message (str): The message to send to the recipient.
     """
-    print(f"Sending SMS to {phone}: {message}")
+    # Twilio credentials from environment variables
+    account_sid = settings.TWILIO_ACCOUNT_SID
+    auth_token = settings.TWILIO_AUTH_TOKEN
+
+    # Twilio phone number or Messaging Service SID
+    twilio_phone_number = settings.TWILIO_PHONE_NUMBER
+
+    client = Client(account_sid, auth_token)
+
+    try:
+        # Sending the SMS
+        message_response = client.messages.create(
+            body=message, from_=twilio_phone_number, to=phone
+        )
+        print(f"SMS sent to {phone}: {message_response.sid}")
+    except Exception as e:
+        print(f"Failed to send SMS: {e}")
 
 
 class UserService:
