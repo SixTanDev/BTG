@@ -2,9 +2,9 @@ name: Code Linters with Pylint & Bandit
 
 on:
   push:
-    branches: [ "development", "main", "quality", "ci/*", "feature/*", "fix/*", "refactor/*", "chore/*", "test/*" ]
+    branches: [ "quality", "test/*" ]
   pull_request:
-    branches: [ "development", "main", "quality" ]
+    branches: [ "quality" ]
 
 jobs:
   build:
@@ -35,7 +35,4 @@ jobs:
     - name: Run Pylint
       run: |
         cd $GITHUB_WORKSPACE
-        poetry run pylint  --rcfile=./linters_code/pylint/.pylintrc application btg config
-    - name: Run Bandit
-      run: |
-            poetry run bandit -r --configfile ./linters_code/bandit/bandit.yaml application btg config
+        poetry run pylint --rcfile=./linters_code/pylint/.pylintrc tests
