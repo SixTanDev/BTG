@@ -41,12 +41,30 @@ Este proyecto incluye un Makefile que automatiza varios comandos relacionados co
 - **pre-commit-check**: Run pre-commit hooks to check if they are working.
 - **help**: Show this help message.
 
-### Iniciar el proyecto
+## Despliegue del proyecto en local
 
-Para iniciar el proyecto solo debes de ingresar el siguiente comando
-- **build-up**: Build the Docker images and start the containers.
+Para desplegar el proyecto en local utilizando la última **tag** creada, sigue los siguientes pasos:
 
-Puedes acceder a la aplicación a través del siguiente enlace, cuando el contenedor se cree
+1. **Clonar el repositorio**:
+   Clona el repositorio en tu máquina local utilizando el siguiente comando:
+
+   ```bash
+   git clone https://github.com/SixTanDev/BTG.git
+   ```
+2. Navegar al directorio del proyecto: Una vez clonado, accede al directorio del proyecto:
+   ```bash
+   cd BTG
+   ```
+3. Checkout a la tag: Realiza un checkout a la última tag que se creó para garantizar que estás trabajando con la versión estable más reciente:
+    ```bash
+   git checkout tags/v1.0.0
+   ```
+4. Construir y desplegar los contenedores: Utiliza el Makefile incluido en el proyecto para construir las imágenes y desplegar los contenedores de Docker:
+    ```bash
+   make build-up
+   ```
+5.Acceder a la aplicación:
+Una vez que los contenedores se han creado y están en ejecución, puedes acceder a la aplicación a través del siguiente enlace:
 
 [Acceder a la aplicación](http://0.0.0.0:8000/)
 
