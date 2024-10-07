@@ -11,6 +11,10 @@ The responses are standardized using ResponseSuccess and ResponseFailure.
 
 from datetime import datetime
 import uuid
+import smtplib
+import ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import pytz
 from btg.repository.user_repository import UserRepository
 from btg.response import ResponseSuccess, ResponseFailure, ResponseTypes
@@ -18,17 +22,34 @@ from btg.serializers.transaction import TransactionList
 
 
 # Notification simulations
-def send_email(email, message):
+def send_email(recipient_email: str, message: str, fund: str):
     """
     This is a placeholder function for sending email notifications.
     This is not the final implementation and should be replaced by a proper
     email sending service (e.g., SMTP, a third-party service like SendGrid).
 
     Args:
-        email (str): The recipient's email address.
+        recipient_email (str): The recipient's email address.
         message (str): The message to send to the recipient.
     """
-    print(f"Sending email to {email}: {message}")
+
+    gmail_user: str = "info.btg.custom@gmail.com"
+    gmail_password: str = "pvff buxc pyhm qpuq"
+    recipient_email: str = recipient_email
+
+    subject: str = f"Subscription Confirmation: {fund}"
+    body: str = message
+
+    msg: MIMEMultipart = MIMEMultipart()
+    msg["From"] = gmail_user
+    msg["To"] = recipient_email
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain"))
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(host="smtp.gmail.com", port=465, context=context) as server:
+        server.login(gmail_user, gmail_password)
+        server.sendmail(gmail_user, recipient_email, msg.as_string())
 
 
 def send_sms(phone, message):
@@ -188,6 +209,7 @@ class UserService:
             self._send_notifications(
                 user=user,
                 message=f"You have subscribed to fund {fund['name']} for {amount}.",
+                fund=fund["name"],
             )
 
             return ResponseSuccess(
@@ -303,6 +325,7 @@ class UserService:
                     f"You have cancelled your subscription to fund {fund['name']} and "
                     f"have been refunded {active_subscription['amount']}."
                 ),
+                fund=fund["name"],
             )
 
             return ResponseSuccess(
@@ -343,7 +366,7 @@ class UserService:
             value=TransactionList(transactions=transactions).transactions
         )
 
-    def _send_notifications(self, user, message):
+    def _send_notifications(self, user, message: str, fund: str):
         """
         Sends notifications to the user based on their preferences.
 
@@ -352,6 +375,6 @@ class UserService:
             message (str): The message to be sent to the user.
         """
         if "email" in user["notification_preference"]:
-            send_email(user["email"], message)
+            send_email(recipient_email=user["email"], message=message, fund=fund)
         if "sms" in user["notification_preference"]:
             send_sms(user["phone"], message)
